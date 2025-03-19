@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MTTO VOB</title>
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('Service Worker registrado', reg))
+                .catch(err => console.log('Error al registrar Service Worker', err));
+        }
+
+        const usuarios = [
+            { usuario: "admin", contrasena: "1234" }
+        ];
+
+        function validarLogin() {
+            const usuario = document.getElementById("usuario").value;
+            const contrasena = document.getElementById("contrasena").value;
+            const encontrado = usuarios.find(u => u.usuario === usuario && u.contrasena === contrasena);
+            if (encontrado) {
+                document.getElementById("login-container").style.display = "none";
+                document.getElementById("sidebar").style.display = "block";
+                document.getElementById("content").style.display = "block";
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background: #f4f4f4;
+        }
+        .login-container {
+            width: 300px;
+            margin: 100px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: calc(100% - 270px);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <h2>Iniciar Sesión</h2>
+        <input type="text" id="usuario" placeholder="Usuario">
+        <input type="password" id="contrasena" placeholder="Contraseña">
+        <button onclick="validarLogin()">Ingresar</button>
+    </div>
+    <div class="sidebar" id="sidebar" style="display: none;">
+        <h2>MTTO VOB</h2>
+    </div>
+    <div class="content" id="content">
+        <h1>Dashboard</h1>
+    </div>
+</body>
+</html>
